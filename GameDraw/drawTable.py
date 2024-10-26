@@ -43,6 +43,20 @@ def format_matches(matches):
     df = pd.DataFrame(data , columns=["team"]+[f"round {i+1}" for i in range(len(opponents))] , index=[f"match_{j}" for j in range(1,len(matches)+1)]) 
     return df
 
+def color_columns(val):
+    if val.name == "Round 1":
+        return ["background-color: lightblue"] * len(val)
+    elif val.name == "Round 2":
+        return ["background-color: lightcoral"] * len(val)
+    elif val.name == "Round 3":
+        return ["background-color: lightred"] * len(val)
+    return [""] * len(val)
+
+def hover_style():
+    return {
+        "selector": "tbody tr:hover",
+        "props": [("background-color", "#e0e0e0")]
+    }
 # Main Streamlit application
 st.title("Football Match Draw System")
 
@@ -59,6 +73,7 @@ if teams_input:
     if len(teams) >= 2:
         matches = draw_teams(teams, rounds)
         df_matches = format_matches(matches)
+        styled_df = df_matches.style.apply(style_hover_and_columns, axis=0).set_table_styles([hover_style()])
         st.write("Here are the match results for each round:")
         st.table(df_matches)
     else:
