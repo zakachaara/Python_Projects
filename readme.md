@@ -39,5 +39,5 @@ Below is an example of what the output might look like in the app:
 ![App Screenshot](./exemple.png)
 --- 
 ## 🔗 Try this application: 
-Access the app in your browser at  ![drawtable](https://drawtablepy.streamlit.app/).
+Access the app in your browser at  https://drawtablepy.streamlit.app/.
 
