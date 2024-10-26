@@ -1,4 +1,4 @@
-# import numpy as np
+import numpy as np
 import streamlit as st
 import pandas as pd
 import random
@@ -38,13 +38,11 @@ def draw_teams(teams, rounds=4):
 def format_matches(matches):
     data = []
     for team, opponents in matches.items():
-        for opponent_info in opponents:
-            if len(opponent_info) == 2:  # Ensure we have both opponent and round number
-                opponent, round_num = opponent_info
-                data.append({"Round": round_num, "Team 1": team, "Team 2": opponent})
-    df = pd.DataFrame(data) 
+      data.append([team]+opponents)
+    data = np.array(data)
+    df = pd.DataFrame(data , columns=["team"]+[f"round {i+1}" for i in range(len(opponents))] , index=[f"match_{j}" for j in range(1,len(matches)+1)]) 
     return df
-    
+
 # Main Streamlit application
 st.title("Football Match Draw System")
 
