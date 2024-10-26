@@ -47,16 +47,17 @@ def format_matches(matches):
 
 # Main code for Streamlit app
 nbr_teams = st.number_input("nmbre of teams :")
-teams_dict , teams = init_teams(nbr_teams)
+if nbr_teams != 0 :
+    teams_dict , teams = init_teams(nbr_teams)
 
 
 rounds = 4  # Number of rounds
 
 st.title("Football Match Draw Results are Available")
-
-matches = draw_teams(teams, rounds)
-df_matches = format_matches(matches)
-
+if teams != None :
+    matches = draw_teams(teams, rounds)
+    df_matches = format_matches(matches)
+if df_matches != None:
 st.write("Here are the match results for each round:")
 st.table(df_matches)
 
