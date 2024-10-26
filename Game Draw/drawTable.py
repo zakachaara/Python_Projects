@@ -7,7 +7,7 @@ def init_teams(n_teams):
     dict_teams = {}
     teams = []
     for i in range(n_teams):
-        j = st.text_input("Team "+ str(i+1) + " name ")
+        j = st.text_input(f"Team {i+1}name ")
         dict_teams[j]= ["-" for t in range(4)]
         teams.append(j)
     return dict_teams , teams
@@ -42,7 +42,7 @@ def format_matches(matches):
             if len(opponent_info) == 2:  # Ensure we have both opponent and round number
                 opponent, round_num = opponent_info
                 data.append({"Round": round_num, "Team 1": team, "Team 2": opponent})
-    df = pd.DataFrame(data) #.sort_values(by=["Round", "Team 1"]).reset_index(drop=True)
+    df = pd.DataFrame(data) 
     return df
 
 # Main code for Streamlit app
