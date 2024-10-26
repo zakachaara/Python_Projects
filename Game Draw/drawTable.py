@@ -1,14 +1,16 @@
-import numpy as np 
+# import numpy as np
+import streamlit as st
+import pandas as pd
+import random
+
 def init_teams(n_teams):
     dict_teams = {}
     teams = []
     for i in range(n_teams):
-        j = input("Team "+ str(i+1) + " name ")
+        j = st.text_input("Team "+ str(i+1) + " name ")
         dict_teams[j]= ["-" for t in range(4)]
         teams.append(j)
     return dict_teams , teams
-
-import random
 
 def draw_teams(teams, rounds=4):
     matches = {team: [] for team in teams}
@@ -32,8 +34,29 @@ def draw_teams(teams, rounds=4):
             
     return matches
 
+# Function to format matches as a DataFrame
+def format_matches(matches):
+    data = []
+    for team, opponents in matches.items():
+        for opponent_info in opponents:
+            if len(opponent_info) == 2:  # Ensure we have both opponent and round number
+                opponent, round_num = opponent_info
+                data.append({"Round": round_num, "Team 1": team, "Team 2": opponent})
+    df = pd.DataFrame(data) #.sort_values(by=["Round", "Team 1"]).reset_index(drop=True)
+    return df
 
-nbr_teams = int(input("nmbre of teams :"))
+# Main code for Streamlit app
+nbr_teams = st.number_input("nmbre of teams :")
 teams_dict , teams = init_teams(nbr_teams)
 
-draw_teams(teams)
+
+rounds = 4  # Number of rounds
+
+st.title("Football Match Draw Results")
+
+matches = draw_teams(teams, rounds)
+df_matches = format_matches(matches)
+
+st.write("Here are the match results for each round:")
+st.table(df_matches)
+
