@@ -73,7 +73,7 @@ if teams_input:
     if len(teams) >= 2:
         matches = draw_teams(teams, rounds)
         df_matches = format_matches(matches)
-        styled_df = df_matches.style.apply(style_hover_and_columns, axis=0).set_table_styles([hover_style()])
+        styled_df = df_matches.style.apply(color_columns, axis=0).set_table_styles([hover_style()])
         st.write("Here are the match results for each round:")
         st.table(df_matches)
     else:
