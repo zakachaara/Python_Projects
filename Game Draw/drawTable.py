@@ -7,37 +7,33 @@ def init_teams(n_teams):
         dict_teams[j]= ["-" for t in range(4)]
         teams.append(j)
     return dict_teams , teams
-def draw(dict_teams , team):
-    teams = team[:]
-    t = len(teams)
-    r = 0 
-    while r < 4*t:
-        j = np.random.randint(0,len(teams))
-        k = np.random.randint(0,len(teams))
-        teamA = teams[j]
-        teamB = teams[k]
-        while "-" not in dict_teams[teamA] :
-            j = np.random.randint(0,len(teams))
-            teamA = teams[j]
-        
-        while "-" not in dict_teams[teamB] or teamA == teamB or teamB in dict_teams[teamA] :
-            k = np.random.randint(0,len(teams))
-            teamB = teams[k]
-        print(teamA , teamB)
 
-        a = dict_teams[teamA].index("-")
-        b = dict_teams[teamB].index("-")
-        dict_teams[teamA][a] = teamB
-        dict_teams[teamB][b] = teamA
-        if "-" not in dict_teams[teamA] :
-            teams.remove(teamA)
-        if "-" not in dict_teams[teamB] :
-            teams.remove(teamB)
-        print(teams)
-        r+=2
-    return dict_teams
+import random
+
+def draw_teams(teams, rounds=4):
+    matches = {team: [] for team in teams}
+    
+    for round_num in range(rounds):
+        available_teams = set(teams)  # Teams available for this round
+        while available_teams:
+            team1 = random.choice(list(available_teams))
+            available_teams.remove(team1)
+            
+            possible_opponents = [t for t in available_teams if t not in matches[team1]]
+            if not possible_opponents:  # If no valid opponents, reattempt
+                return draw_teams(teams, rounds)  # Start this round from scratch
+                
+            team2 = random.choice(possible_opponents)
+            available_teams.remove(team2)
+            
+            # Register this match
+            matches[team1].append(team2)
+            matches[team2].append(team1)
+            
+    return matches
+
 
 nbr_teams = int(input("nmbre of teams :"))
 teams_dict , teams = init_teams(nbr_teams)
 
-draw(teams_dict, teams)
+draw_teams(teams)
