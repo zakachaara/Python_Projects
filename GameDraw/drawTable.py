@@ -58,6 +58,6 @@ if teams != None :
     matches = draw_teams(teams, rounds)
     df_matches = format_matches(matches)
 if df_matches != None:
-st.write("Here are the match results for each round:")
-st.table(df_matches)
+    st.write("Here are the match results for each round:")
+    st.table(df_matches)
 
