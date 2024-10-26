@@ -46,7 +46,7 @@ def format_matches(matches):
     return df
 
 # Main code for Streamlit app
-nbr_teams = st.number_input("Insert the number of teams", value=None, placeholder="Type a even number...")
+nbr_teams = int(st.number_input("Insert the number of teams", value=None, placeholder="Type a even number..."))
 if nbr_teams != 0 :
     teams_dict , teams = init_teams(nbr_teams)
 
