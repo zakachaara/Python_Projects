@@ -44,20 +44,26 @@ def format_matches(matches):
                 data.append({"Round": round_num, "Team 1": team, "Team 2": opponent})
     df = pd.DataFrame(data) 
     return df
+    
+# Main Streamlit application
+st.title("Football Match Draw System")
 
-# Main code for Streamlit app
-nbr_teams = int(st.number_input("Insert the number of teams", value=None, placeholder="Type a even number..."))
-if nbr_teams != 0 :
-    teams_dict , teams = init_teams(nbr_teams)
+# Step 1: Get user input for teams
+teams_input = st.text_input("Enter team names separated by commas (e.g., Team A, Team B, Team C)")
+rounds_input = st.number_input("Enter the number of rounds", min_value=1, step=1, value=4)
 
+# Step 2: Check if teams are provided
+if teams_input:
+    teams = [team.strip() for team in teams_input.split(",") if team.strip()]
+    rounds = int(rounds_input)
 
-rounds = 4  # Number of rounds
-
-st.title("Football Match Draw Results are Available")
-if teams != None :
-    matches = draw_teams(teams, rounds)
-    df_matches = format_matches(matches)
-if df_matches != None:
-    st.write("Here are the match results for each round:")
-    st.table(df_matches)
-
+    # Step 3: Run draw only if teams and rounds are valid
+    if len(teams) >= 2:
+        matches = draw_teams(teams, rounds)
+        df_matches = format_matches(matches)
+        st.write("Here are the match results for each round:")
+        st.table(df_matches)
+    else:
+        st.error("Please enter at least two teams.")
+else:
+    st.warning("Please enter team names to generate the draw.")
